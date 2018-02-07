@@ -1,0 +1,40 @@
+var canvas = document.getElementById("slate");
+var context = canvas.getContext("2d");
+var clear = document.getElementById("clear");
+var stop = document.getElementById("stop");
+var requestID;
+context.fillStyle="#00FFFF"
+
+var animate = function(){
+    window.cancelAnimationFrame(requestID);
+    var x = 50;
+    var y = 50;
+    var r = 10;
+
+    var shape = function(){
+        clearDrawing();
+        context.beginPath();
+        context.arc(x, y, r, 0, 2 * Math.PI);
+        context.stroke();
+        context.fill();
+        r++;
+        requestID = window.requestAnimationFrame(shape);
+        console.log(requestID);
+    }
+    shape();
+}
+
+var clearDrawing = function(){
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    started = false;
+}
+
+var stopIt = function(){
+    window.cancelAnimationFrame(requestID);
+}
+
+window.requestAnimationFrame(animate);
+
+canvas.addEventListener("click", animate);
+clear.addEventListener("click", clearDrawing);
+stop.addEventListener("click", stopIt);
